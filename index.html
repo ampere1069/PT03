@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專案成果報告 - 寵物智能APP X 寵物快閃店活動</title>
+    <!-- 引入外部資源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 引入Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+    <!-- 自訂樣式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow-pro {
+                text-shadow: 0 2px 6px rgba(0, 23, 55, 0.4);
+            }
+            .card-hover-pro {
+                transition: all 0.3s ease;
+            }
+            .card-hover-pro:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0, 23, 55, 0.15);
+            }
+            .bg-gradient-pro {
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            }
+            .border-pro {
+                border: 2px solid #0f172a;
+            }
+            .bg-card-pro {
+                background: #ffffff;
+            }
+            .text-glow-pro {
+                text-shadow: 0 0 10px rgba(30, 64, 175, 0.3);
+            }
+            .grid-bg-pro {
+                background-image: radial-gradient(rgba(0, 23, 55, 0.03) 1px, transparent 1px);
+                background-size: 25px 25px;
+            }
+            .chart-container-pro {
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 1.5rem;
+                padding: 2rem;
+                box-shadow: 0 4px 20px rgba(0, 23, 55, 0.05);
+                border: 1px solid rgba(30, 64, 175, 0.1);
+            }
+            .counter-animate {
+                display: inline-block;
+                overflow: hidden;
+                vertical-align: bottom;
+            }
+            .chart-fade-in {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.8s ease, transform 0.8s ease;
+            }
+            .chart-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <!-- 設定字體和顏色主題（專業深色調） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a', // 深藍黑（核心專業色）
+                        secondary: '#1e40af', // 深藍（強調色）
+                        accent: '#334155', // 深灰藍（輔助色）
+                        success: '#0f766e', // 深綠（數據正向色）
+                        info: '#4f46e5', // 深紫（科技感色）
+                        neutral: '#f1f5f9', // 淺灰底（頁面底色）
+                        dark: '#020617', // 近黑（文字加深）
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif', 'system-ui'],
+                    },
+                    fontSize: {
+                        'xl': '1.6rem',
+                        '2xl': '2rem',
+                        '3xl': '2.5rem',
+                        '4xl': '3rem',
+                        '5xl': '3.8rem',
+                        '6xl': '4.5rem',
+                    },
+                    boxShadow: {
+                        'pro': '0 6px 24px rgba(0, 23, 55, 0.08)',
+                        'pro-hover': '0 12px 36px rgba(0, 23, 55, 0.12)',
+                    }
+                }
+            }
+        }
+        // 初始化Mermaid（專業風格）
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            themeVariables: {
+                primaryColor: '#f8fafc',
+                secondaryColor: '#e2e8f0',
+                tertiaryColor: '#cbd5e1',
+                primaryTextColor: '#0f172a',
+                secondaryTextColor: '#020617',
+                borderColor: '#1e40af',
+                lineColor: '#334155',
+                fontSize: '18px',
+                fontFamily: 'Noto Sans TC, sans-serif',
+                borderRadius: '8px',
+                padding: '12px',
+            }
+        });
+    </script>
+</head>
+<body class="bg-neutral text-dark font-sans grid-bg-pro">
+    <!-- 導航列 - 專業固定頂部 -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/98 backdrop-blur-md shadow-pro z-50 border-b-2 border-secondary/30">
+        <div class="container mx-auto px-6 py-5 flex flex-wrap justify-center items-center gap-10">
+            <a href="#overview" class="text-2xl font-black text-primary hover:text-secondary transition-all duration-300 flex items-center gap-3">
+                <i class="fas fa-info-circle text-xl"></i>
+                <span>專案概述</span>
+            </a>
+            <a href="#management" class="text-2xl font-black text-primary hover:text-secondary transition-all duration-300 flex items-center gap-3">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span>專案管理表現</span>
+            </a>
+            <a href="#marketing" class="text-2xl font-black text-primary hover:text-secondary transition-all duration-300 flex items-center gap-3">
+                <i class="fas fa-database text-xl"></i>
+                <span>行銷數據分析</span>
+            </a>
+            <a href="#videos" class="text-2xl font-black text-primary hover:text-secondary transition-all duration-300 flex items-center gap-3">
+                <i class="fas fa-video text-xl"></i>
+                <span>活動影片</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 英雄區 - 專業大氣漸層 -->
+    <header class="pt-40 pb-32 bg-gradient-pro text-center relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <h1 class="text-6xl font-black mb-8 text-primary text-shadow-pro text-glow-pro">專案成果報告</h1>
+            <h2 class="text-4xl font-bold mb-12 text-secondary">寵物智能APP X 寵物快閃店整合行銷</h2>
+            <div class="w-60 h-2 bg-gradient-to-r from-secondary to-info mx-auto rounded-full mb-10"></div>
+            <p class="text-2xl text-dark/90 max-w-4xl mx-auto font-semibold">
+                數據驅動決策 · 專業化專案管理 · 高效能市場轉化
+            </p>
+        </div>
+        <!-- 專業裝飾元素 -->
+        <div class="absolute top-1/3 left-10 w-24 h-24 rounded-full bg-secondary/10 blur-2xl"></div>
+        <div class="absolute bottom-1/3 right-10 w-36 h-36 rounded-full bg-info/10 blur-3xl"></div>
+    </header>
+
+    <main class="container mx-auto px-6 py-24">
+        <!-- 專案概述 -->
+        <section id="overview" class="mb-40">
+            <h2 class="text-5xl font-black mb-20 text-center text-primary relative">
+                <span class="inline-block relative z-10">專案概述</span>
+                <span class="absolute bottom-3 left-1/2 -translate-x-1/2 w-32 h-3 bg-secondary/40 rounded-full"></span>
+            </h2>
+            
+            <!-- Mermaid流程圖區域（專業化） -->
+            <div class="chart-container-pro mb-20 max-w-6xl mx-auto">
+                <h3 class="text-3xl font-bold mb-8 text-center text-primary flex items-center justify-center gap-4">
+                    <i class="fas fa-project-diagram text-secondary"></i>
+                    <span>專案執行流程（市場導向）</span>
+                </h3>
+                <div class="mermaid">
+                    graph LR
+                        A[專案啟動<br/><i class="fas fa-flag text-secondary"></i>] --> B[APP系統開發<br/><i class="fas fa-microchip text-info"></i>]
+                        B --> C[快閃店籌備<br/><i class="fas fa-store text-accent"></i>]
+                        C --> D[智能設備整合<br/><i class="fas fa-wifi text-primary"></i>]
+                        D --> E[行銷推廣<br/><i class="fas fa-bullhorn text-success"></i>]
+                        E --> F[活動執行<br/><i class="fas fa-users text-accent"></i>]
+                        F --> G[數據收集分析<br/><i class="fas fa-chart-bar text-secondary"></i>]
+                        G --> H[成果總結優化<br/><i class="fas fa-trophy text-info"></i>]
+                        
+                        style A fill:#f8fafc,stroke:#1e40af,stroke-width:2px
+                        style B fill:#f1f5f9,stroke:#0f172a,stroke-width:2px
+                        style C fill:#e2e8f0,stroke:#334155,stroke-width:2px
+                        style D fill:#f8fafc,stroke:#4f46e5,stroke-width:2px
+                        style E fill:#f1f5f9,stroke:#0f766e,stroke-width:2px
+                        style F fill:#e2e8f0,stroke:#1e40af,stroke-width:2px
+                        style G fill:#f8fafc,stroke:#0f172a,stroke-width:2px
+                        style H fill:#f1f5f9,stroke:#4f46e5,stroke-width:2px
+                    </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- APP系統建構 -->
+                <div class="bg-card-pro p-12 rounded-2xl shadow-pro card-hover-pro border-pro relative">
+                    <div class="text-secondary text-5xl mb-8 flex items-center gap-5 relative z-10">
+                        <i class="fas fa-microchip"></i>
+                        <span class="font-bold">寵物智慧APP系統建構</span>
+                    </div>
+                    <h3 class="text-4xl font-black mb-8 text-primary relative z-10">智能整合 · 數據驅動</h3>
+                    <p class="text-2xl leading-relaxed text-dark/90 relative z-10 font-medium">
+                        打造寵物智慧APP與快閃店跨界整合方案，整合智能健康追蹤、自動餵食設備等功能。透過AI演算法提供寵物健康初步分析與科學建議，建立數據儀表板與異常預警機制，實現精準產品推薦與用戶運營。
+                    </p>
+                </div>
+
+                <!-- 管理工具導入 -->
+                <div class="bg-card-pro p-12 rounded-2xl shadow-pro card-hover-pro border-pro relative">
+                    <div class="text-secondary text-5xl mb-8 flex items-center gap-5 relative z-10">
+                        <i class="fas fa-cogs"></i>
+                        <span class="font-bold">專案管理工具導入</span>
+                    </div>
+                    <h3 class="text-4xl font-black mb-8 text-primary relative z-10">系統化 · 可視化</h3>
+                    <p class="text-2xl leading-relaxed text-dark/90 relative z-10 font-medium">
+                        導入PMP標準化專案管理工具，包含工作分解結構(WBS)、職責分配矩陣(RACI)、時程網路圖(PERT)、利害關係人管理、魚骨圖分析、實獲值分析(EVA)等，實現專案全生命週期透明化、可量化、可追溯管理。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 專案管理表現 -->
+        <section id="management" class="mb-40">
+            <h2 class="text-5xl font-black mb-20 text-center text-primary relative">
+                <span class="inline-block relative z-10">專案管理優越表現</span>
+                <span class="absolute bottom-3 left-1/2 -translate-x-1/2 w-40 h-3 bg-secondary/40 rounded-full"></span>
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- 進度追趕 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/40 transition-all duration-300 hover:border-secondary relative">
+                    <div class="text-secondary text-5xl mb-8 flex justify-center">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-4xl font-black mb-8 text-center text-primary">進度追趕</h3>
+                    <ul class="text-2xl leading-relaxed space-y-6 text-dark/90 font-medium">
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>增派20%技術人力，採「雙班輪值」工作制壓縮工期</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>並行任務提前7天啟動，優化時序調度縮短間隙</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>每週里程碑檢核，動態調整資源與時程偏差</span>
+                        </li>
+                        <li class="font-black mt-8 text-primary text-2xl bg-secondary/10 p-4 rounded-lg text-center">
+                            最終成果：提早<span class="counter-animate" data-target="2" data-suffix="周">0</span>完成交付物
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 成本管控 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/40 transition-all duration-300 hover:border-secondary relative">
+                    <div class="text-secondary text-5xl mb-8 flex justify-center">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-4xl font-black mb-8 text-center text-primary">成本管控</h3>
+                    <ul class="text-2xl leading-relaxed space-y-6 text-dark/90 font-medium">
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>建立CCB變更控制機制，拒絕3項非必要變更</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>內部資源調配優化，節省外部採購成本$<span class="counter-animate" data-target="120" data-suffix="萬">0</span></span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-success mt-2.5 text-xl"></i>
+                            <span>參數估算法以統計公式或單位成本乘以預計工作量進行預算掌控</span>
+                        </li>
+                        <li class="font-black mt-8 text-primary text-2xl bg-secondary/10 p-4 rounded-lg text-center">
+                            最終成果：成本節約$<span class="counter-animate" data-target="50" data-suffix="萬">0</span>，偏差<5%
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 成果價值 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/40 transition-all duration-300 hover:border-secondary relative">
+                    <div class="text-secondary text-5xl mb-8 flex justify-center">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-4xl font-black mb-8 text-center text-primary">成果價值</h3>
+                    <p class="text-2xl leading-relaxed mb-8 text-dark/90 text-center font-medium">
+                        達成「進度提前 + 成本優化」雙重目標，驗證團隊高壓環境下的管理韌性
+                    </p>
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-neutral p-6 rounded-lg border border-secondary/20 flex items-center justify-between">
+                            <span class="font-bold text-2xl">SPI (進度績效指數)</span>
+                            <span class="text-4xl font-black text-secondary text-glow-pro counter-animate" data-target="1.2" data-decimals="1">0.0</span>
+                        </div>
+                        <div class="bg-neutral p-6 rounded-lg border border-secondary/20 flex items-center justify-between">
+                            <span class="font-bold text-2xl">CPI (成本績效指數)</span>
+                            <span class="text-4xl font-black text-secondary text-glow-pro counter-animate" data-target="1.1" data-decimals="1">0.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 行銷數據統計分析 -->
+        <section id="marketing" class="mb-40">
+            <h2 class="text-5xl font-black mb-20 text-center text-primary relative">
+                <span class="inline-block relative z-10">行銷活動統計分析數據</span>
+                <span class="absolute bottom-3 left-1/2 -translate-x-1/2 w-48 h-3 bg-secondary/40 rounded-full"></span>
+            </h2>
+            
+            <!-- 新增：行銷活動區塊 -->
+            <div class="bg-card-pro p-12 rounded-2xl shadow-pro border-pro mb-24">
+                <h3 class="text-4xl font-bold mb-10 flex items-center gap-4 text-primary">
+                    <i class="fas fa-bullhorn text-secondary"></i>
+                    <span>行銷活動</span>
+                </h3>
+                <ul class="text-2xl leading-relaxed space-y-8 text-dark/90 font-medium">
+                    <li class="flex items-start gap-6">
+                        <span class="font-black text-secondary text-3xl mt-1">1.</span>
+                        <div>
+                            <span class="font-bold text-primary">快閃店活動執行：</span>
+                            <span>成功舉辦線下快閃店活動，提供了沉浸式體驗區與產品合作廠商展示區，現場營運與進撤場順利完成。</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-6">
+                        <span class="font-black text-secondary text-3xl mt-1">2.</span>
+                        <div>
+                            <span class="font-bold text-primary">市場推廣與轉換：</span>
+                            <span>透過多管道傳播策略（KOL 合作、IG臉書等社群媒體貼文）結合快閃店實體體驗，高效吸引目標客群，達成高註冊轉換與銷售回報。</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 數據圖表區（專業配色） -->
+            <div class="grid md:grid-cols-2 gap-20 mb-24">
+                <!-- 左側圖表：主要指標 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro border border-secondary/30 chart-fade-in">
+                    <h3 class="text-3xl font-bold mb-10 text-center text-primary">核心業績指標</h3>
+                    <div class="h-96">
+                        <canvas id="mainMetricsChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 右側圖表：轉換率與互動率 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro border border-secondary/30 chart-fade-in">
+                    <h3 class="text-3xl font-bold mb-10 text-center text-primary">轉換率與互動率</h3>
+                    <div class="h-96">
+                        <canvas id="conversionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 詳細數據卡片 -->
+            <div class="grid md:grid-cols-3 gap-12 mb-20">
+                <!-- 使用者獲取 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/30 relative">
+                    <div class="text-secondary text-4xl mb-6 flex items-center gap-4">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3 class="text-3xl font-bold">使用者獲取</h3>
+                    </div>
+                    <p class="text-6xl font-black text-primary my-6 text-glow-pro">
+                        <span class="counter-animate" data-target="20" data-suffix="萬次">0</span>
+                    </p>
+                    <p class="text-2xl text-dark/80 mb-8 font-medium">上線後6個月雙平臺下載量</p>
+                    <div class="rounded-xl overflow-hidden border border-secondary/20">
+                        <video controls class="w-full h-64 object-cover" poster="https://picsum.photos/id/237/800/400">
+                            <source src="https://i.urusai.cc/Szmxc.mp4" type="video/mp4">
+                            您的瀏覽器不支援影片播放，請更新瀏覽器。
+                        </video>
+                    </div>
+                </div>
+
+                <!-- 活動來客數 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/30 relative">
+                    <div class="text-secondary text-4xl mb-6 flex items-center gap-4">
+                        <i class="fas fa-store"></i>
+                        <h3 class="text-3xl font-bold">活動來客數</h3>
+                    </div>
+                    <p class="text-6xl font-black text-primary my-6 text-glow-pro">
+                        <span class="counter-animate" data-target="15000" data-suffix="人">0</span>
+                    </p>
+                    <p class="text-2xl text-dark/80 mb-8 font-medium">為期三週寵物快閃店來客數</p>
+                    <p class="text-2xl leading-relaxed text-dark/90 bg-neutral p-6 rounded-lg border border-secondary/10 font-medium">
+                        匯聚萬名寵物愛好者實體體驗，促進目標客群深度交流，強化現場參與感與品牌互動黏著度。
+                    </p>
+                </div>
+
+                <!-- 用戶滿意度 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/30 relative">
+                    <div class="text-secondary text-4xl mb-6 flex items-center gap-4">
+                        <i class="fas fa-paw"></i>
+                        <h3 class="text-3xl font-bold">使用者滿意度</h3>
+                    </div>
+                    <div class="text-6xl font-black text-secondary my-6 text-glow-pro">
+                        <span class="counter-animate" data-target="4.5" data-decimals="1" data-suffix=" "></span>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-2xl text-dark/80 mb-8 font-medium">上線後3個月平均用戶評分</p>
+                    <div class="flex justify-center gap-3 text-4xl text-secondary">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 行銷效益詳細 -->
+            <div class="bg-card-pro p-12 rounded-2xl shadow-pro border-pro">
+                <h3 class="text-4xl font-bold mb-10 flex items-center gap-4 text-primary">
+                    <i class="fas fa-chart-pie text-secondary"></i>
+                    <span>行銷效益詳情</span>
+                </h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">社群互動率</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="70" data-suffix="%">0</span>
+                        </p>
+                    </div>
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">註冊轉換率</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="85" data-suffix="%">0</span>
+                        </p>
+                    </div>
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">銷售轉換提升</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="18" data-suffix="%">0</span>
+                        </p>
+                    </div>
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">ROAS廣告回報率提升</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="3.5" data-decimals="1" data-suffix="倍">0.0</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">網路討論聲量增加</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="3500" data-suffix="則">0</span>
+                        </p>
+                    </div>
+                    <div class="bg-neutral p-8 rounded-xl shadow-sm border border-secondary/10 hover:border-secondary transition-all duration-300 transform hover:scale-105">
+                        <p class="text-2xl font-bold mb-4 text-dark/80">網友分享留言按讚</p>
+                        <p class="text-5xl font-black text-primary text-glow-pro">
+                            <span class="counter-animate" data-target="1000" data-suffix="則+">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 活動影片區 -->
+        <section id="videos" class="mb-32">
+            <h2 class="text-5xl font-black mb-20 text-center text-primary relative">
+                <span class="inline-block relative z-10">現場活動影片</span>
+                <span class="absolute bottom-3 left-1/2 -translate-x-1/2 w-40 h-3 bg-secondary/40 rounded-full"></span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- 影片4 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/30 transform transition-all duration-300 hover:scale-102">
+                    <h3 class="text-3xl font-bold mb-8 text-center text-primary flex items-center justify-center gap-4">
+                        <i class="fas fa-video text-secondary"></i>
+                        <span>活動精華影片1</span>
+                    </h3>
+                    <div class="rounded-xl overflow-hidden border-2 border-secondary/30 hover:border-secondary transition-all duration-300 shadow-md">
+                        <video controls class="w-full h-80 object-cover" poster="https://picsum.photos/id/169/800/450">
+                            <source src="https://i.urusai.cc/xJjFF.mp4" type="video/mp4">
+                            您的瀏覽器不支援影片播放，請更新瀏覽器。
+                        </video>
+                    </div>
+                </div>
+
+                <!-- 影片3 -->
+                <div class="bg-card-pro p-10 rounded-2xl shadow-pro card-hover-pro border border-secondary/30 transform transition-all duration-300 hover:scale-102">
+                    <h3 class="text-3xl font-bold mb-8 text-center text-primary flex items-center justify-center gap-4">
+                        <i class="fas fa-video text-secondary"></i>
+                        <span>活動精華影片2</span>
+                    </h3>
+                    <div class="rounded-xl overflow-hidden border-2 border-secondary/30 hover:border-secondary transition-all duration-300 shadow-md">
+                        <video controls class="w-full h-80 object-cover" poster="https://picsum.photos/id/1025/800/450">
+                            <source src="https://i.urusai.cc/ENRMU.mp4" type="video/mp4">
+                            您的瀏覽器不支援影片播放，請更新瀏覽器。
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁腳 - 專業風格 -->
+    <footer class="bg-primary text-white py-20 grid-bg-pro relative overflow-hidden">
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl font-black mb-8 text-glow-pro">寵物智能APP X 寵物快閃店活動</h2>
+            <p class="text-2xl mb-12 text-white/90 font-medium">專案成果報告 | 市場調研版</p>
+            <div class="flex justify-center gap-10 text-3xl mb-16">
+                <a href="#" class="hover:text-info transition-colors duration-300 p-4 rounded-full bg-white/10 hover:bg-white/20">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="hover:text-info transition-colors duration-300 p-4 rounded-full bg-white/10 hover:bg-white/20">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="hover:text-info transition-colors duration-300 p-4 rounded-full bg-white/10 hover:bg-white/20">
+                    <i class="fab fa-line"></i>
+                </a>
+                <a href="#" class="hover:text-info transition-colors duration-300 p-4 rounded-full bg-white/10 hover:bg-white/20">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <div class="border-t border-white/20 pt-10">
+                <p class="text-2xl text-white/80 font-medium">© 2025 寵物智慧APP X 寵物快閃店整合行銷專案</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到頂部按鈕 - 專業風格 -->
+    <button id="backToTop" class="fixed bottom-12 right-12 bg-gradient-to-r from-primary to-secondary text-white w-24 h-24 rounded-full shadow-lg flex items-center justify-center text-4xl opacity-0 invisible transition-all duration-500 hover:scale-110 hover:shadow-xl">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 回到頂部按鈕
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 平滑滾動
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 數字滾動動畫
+        function animateCounter(element, target, decimals = 0, suffix = '') {
+            const duration = 2000; // 動畫持續時間（毫秒）
+            const frameDuration = 16; // 每幀時間（約60fps）
+            const totalFrames = Math.round(duration / frameDuration);
+            let frame = 0;
+            const start = 0;
+            const increment = (target - start) / totalFrames;
+            
+            const updateCounter = () => {
+                frame++;
+                const current = start + (increment * frame);
+                
+                if (decimals > 0) {
+                    element.textContent = current.toFixed(decimals) + suffix;
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+                
+                if (frame < totalFrames) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target.toFixed(decimals) + suffix;
+                }
+            };
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // 觀察元素進入視口
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px 50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 數字計數動畫
+                    if (entry.target.classList.contains('counter-animate')) {
+                        const target = parseFloat(entry.target.dataset.target);
+                        const decimals = entry.target.dataset.decimals ? parseInt(entry.target.dataset.decimals) : 0;
+                        const suffix = entry.target.dataset.suffix || '';
+                        animateCounter(entry.target, target, decimals, suffix);
+                        observer.unobserve(entry.target);
+                    }
+                    
+                    // 圖表淡入動畫
+                    if (entry.target.classList.contains('chart-fade-in')) {
+                        entry.target.classList.add('chart-visible');
+                        // 觸發圖表渲染
+                        if (entry.target.querySelector('canvas')) {
+                            setTimeout(() => {
+                                window.dispatchEvent(new Event('resize'));
+                            }, 100);
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // 觀察所有需要動畫的元素
+        document.querySelectorAll('.counter-animate, .chart-fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // 數據圖表 - 核心業績指標（專業配色 + 加強動畫）
+        const mainMetricsCtx = document.getElementById('mainMetricsChart').getContext('2d');
+        new Chart(mainMetricsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['APP下載量(萬次)', '快閃店來客數(千人)', '用戶評分(星)', '網路討論聲量(千則)'],
+                datasets: [{
+                    label: '數值',
+                    data: [20, 15, 4.5, 3.5],
+                    backgroundColor: [
+                        'rgba(15, 23, 42, 0.8)',
+                        'rgba(30, 64, 175, 0.8)',
+                        'rgba(79, 70, 229, 0.8)',
+                        'rgba(15, 118, 110, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(15, 23, 42, 1)',
+                        'rgba(30, 64, 175, 1)',
+                        'rgba(79, 70, 229, 1)',
+                        'rgba(15, 118, 110, 1)'
+                    ],
+                    borderWidth: 3,
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        titleFont: { size: 20, weight: 'bold', family: 'Noto Sans TC' },
+                        bodyFont: { size: 18, family: 'Noto Sans TC' },
+                        padding: 20,
+                        cornerRadius: 8,
+                        backgroundColor: 'rgba(2, 6, 23, 0.95)',
+                        boxShadow: '0 6px 20px rgba(0,0,0,0.3)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(15, 23, 42, 0.08)',
+                            drawBorder: false,
+                            animate: true,
+                            animationDuration: 1500
+                        },
+                        ticks: {
+                            font: { size: 18, weight: 'bold', family: 'Noto Sans TC' },
+                            color: '#0f172a',
+                            padding: 15,
+                            animate: true,
+                            animationDuration: 1500
+                        },
+                        animate: true,
+                        animationDuration: 1500
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: { size: 18, weight: 'bold', family: 'Noto Sans TC' },
+                            color: '#0f172a',
+                            padding: 15,
+                            animate: true,
+                            animationDuration: 1500
+                        },
+                        animate: true,
+                        animationDuration: 1500
+                    }
+                }
+            }
+        });
+
+        // 數據圖表 - 轉換率與互動率（專業配色 + 加強動畫）
+        const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+        new Chart(conversionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['註冊轉換率', '銷售轉換提升', '社群互動率', '其他'],
+                datasets: [{
+                    label: '轉換率(%)',
+                    data: [85, 18, 70, 15],
+                    backgroundColor: [
+                        'rgba(15, 23, 42, 0.85)',
+                        'rgba(30, 64, 175, 0.85)',
+                        'rgba(79, 70, 229, 0.85)',
+                        'rgba(100, 116, 139, 0.85)'
+                    ],
+                    borderColor: [
+                        '#ffffff',
+                        '#ffffff',
+                        '#ffffff',
+                        '#ffffff'
+                    ],
+                    borderWidth: 5,
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '55%',
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 2500,
+                    easing: 'easeOutCirc'
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 18, weight: 'bold', family: 'Noto Sans TC' },
+                            padding: 30,
+                            color: '#0f172a',
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            pointStyleWidth: 10,
+                            animate: true,
+                            animationDuration: 2000
+                        }
+                    },
+                    tooltip: {
+                        titleFont: { size: 20, weight: 'bold', family: 'Noto Sans TC' },
+                        bodyFont: { size: 18, family: 'Noto Sans TC' },
+                        padding: 20,
+                        cornerRadius: 8,
+                        backgroundColor: 'rgba(2, 6, 23, 0.95)',
+                        boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 影片控制樣式（專業化）
+        document.querySelectorAll('video').forEach(video => {
+            video.classList.add('cursor-pointer');
+            video.style.setProperty('--plyr-control-size', '56px');
+            video.style.setProperty('--plyr-font-size', '28px');
+            video.style.setProperty('--plyr-color-main', '#1e40af');
+            
+            video.addEventListener('click', function() {
+                if (this.paused) {
+                    this.play();
+                } else {
+                    this.pause();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
